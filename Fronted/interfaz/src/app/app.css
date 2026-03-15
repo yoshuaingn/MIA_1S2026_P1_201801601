@@ -1,0 +1,80 @@
+.main-wrapper {
+  padding: 20px;
+  background-color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.btn-gray {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.btn-gray:hover {
+  background-color: #e0e0e0;
+}
+
+.file-label {
+  border: 1px solid #ccc;
+  padding: 5px;
+  font-size: 0.9em;
+  min-width: 150px;
+  display: inline-block;
+}
+
+.section {
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.editor-container {
+  display: flex;
+  background-color: #1e1e1e; /* Fondo oscuro tipo VS Code */
+  border: 1px solid #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.line-numbers {
+  background-color: #1e1e1e;
+  color: #858585;
+  padding: 10px 5px;
+  text-align: right;
+  min-width: 30px;
+  font-family: monospace;
+  user-select: none;
+}
+
+textarea {
+  flex-grow: 1;
+  background: transparent;
+  color: #d4d4d4;
+  border: none;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  min-height: 250px;
+  outline: none;
+  resize: vertical;
+}
+
+.output-text {
+  color: #a9dc76; /* Color verde para la salida */
+}

@@ -1,0 +1,32 @@
+<div class="main-wrapper">
+  <div class="toolbar">
+    <div class="file-input-wrapper">
+      <button type="button" class="btn-gray" (click)="fileInput.click()">Elegir archivo</button>
+      <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+      <span class="file-label">{{ nombreArchivo }}</span>
+    </div>
+    
+    <button class="btn-gray" (click)="onEjecutar()">Ejecutar</button>
+    <button class="btn-gray" (click)="limpiar()">Limpiar</button>
+
+    <textarea [(ngModel)]="entrada" name="inputArea"></textarea>
+
+    <textarea [(ngModel)]="salida" name="outputArea" readonly></textarea>
+  </div>
+
+  <div class="section">
+    <label>Entrada:</label>
+    <div class="editor-container">
+      <div class="line-numbers">1</div>
+      <textarea [(ngModel)]="entrada" spellcheck="false"></textarea>
+    </div>
+  </div>
+
+  <div class="section">
+    <label>Salida:</label>
+    <div class="editor-container">
+      <div class="line-numbers">1</div>
+      <textarea [(ngModel)]="salida" readonly class="output-text" spellcheck="false"></textarea>
+    </div>
+  </div>
+</div>
