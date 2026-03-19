@@ -1,80 +1,104 @@
-.main-wrapper {
+:root {
+  --main-bg: #f0f2f5;
+  --editor-font: 'Fira Code', 'Cascadia Code', monospace;
+}
+
+body {
+  background-color: var(--main-bg);
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.main-container {
+  min-height: 100vh;
+}
+
+.main-editor {
+  height: 480px;
+  border: none;
+  border-radius: 0;
+  font-family: var(--editor-font);
+  font-size: 15px;
   padding: 20px;
   background-color: #ffffff;
-  font-family: Arial, sans-serif;
+  resize: none;
+  line-height: 1.5;
 }
 
-.toolbar {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 20px;
+.main-editor:focus {
+  box-shadow: none;
+  background-color: #fafafa;
 }
 
-.btn-gray {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  padding: 5px 15px;
-  cursor: pointer;
-  border-radius: 3px;
-}
-
-.btn-gray:hover {
-  background-color: #e0e0e0;
-}
-
-.file-label {
-  border: 1px solid #ccc;
-  padding: 5px;
-  font-size: 0.9em;
-  min-width: 150px;
-  display: inline-block;
-}
-
-.section {
-  margin-bottom: 25px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.editor-container {
-  display: flex;
-  background-color: #1e1e1e; /* Fondo oscuro tipo VS Code */
-  border: 1px solid #333;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.line-numbers {
+/* Consola */
+.console-wrapper {
   background-color: #1e1e1e;
-  color: #858585;
-  padding: 10px 5px;
-  text-align: right;
-  min-width: 30px;
-  font-family: monospace;
-  user-select: none;
+  height: 565px;
+  overflow-y: auto;
 }
 
-textarea {
-  flex-grow: 1;
-  background: transparent;
+.console-output {
+  margin: 0;
+  padding: 20px;
   color: #d4d4d4;
-  border: none;
-  padding: 10px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--editor-font);
   font-size: 14px;
-  min-height: 250px;
-  outline: none;
-  resize: vertical;
+  line-height: 1.6;
+  white-space: pre-wrap;
 }
 
-.output-text {
-  color: #a9dc76; /* Color verde para la salida */
+.btn {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.card-footer .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 120px;
+}
+
+.btn-lg {
+  padding: 10px 18px;
+  font-size: 15px;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-2px);
+}
+
+label.btn:hover,
+button:hover {
+  transform: translateY(-2px);
+}
+
+.report-container {
+  overflow: auto;
+  max-height: 800px;
+  border: 1px solid #dee2e6;
+}
+
+.report-container img {
+  max-width: none;
+  transition: transform 0.3s ease;
+}
+
+.console-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.console-wrapper::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.console-wrapper::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
 }

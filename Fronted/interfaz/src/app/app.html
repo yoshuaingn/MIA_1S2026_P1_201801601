@@ -1,32 +1,90 @@
-<div class="main-wrapper">
-  <div class="toolbar">
-    <div class="file-input-wrapper">
-      <button type="button" class="btn-gray" (click)="fileInput.click()">Elegir archivo</button>
-      <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
-      <span class="file-label">{{ nombreArchivo }}</span>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container-fluid p-3">
+
+  <h3 class="mb-3">💻 Disk Manager Pro</h3>
+
+  <div class="row">
+
+    <!-- EDITOR -->
+    <div class="col-md-4">
+      <textarea [(ngModel)]="entrada" class="form-control mb-2" rows="15"
+        placeholder="Escribe comandos..."></textarea>
+
+      <div class="d-flex gap-2">
+        <button (click)="onEjecutar()" class="btn btn-success w-100">
+          ▶ Ejecutar
+        </button>
+
+        <button (click)="limpiar()" class="btn btn-danger">
+          Limpiar
+        </button>
+      </div>
+
+      <div class="mt-2">
+        <input type="file" (change)="onFileSelected($event)">
+      </div>
     </div>
-    
-    <button class="btn-gray" (click)="onEjecutar()">Ejecutar</button>
-    <button class="btn-gray" (click)="limpiar()">Limpiar</button>
 
-    <textarea [(ngModel)]="entrada" name="inputArea"></textarea>
+    <div class="col-md-8">
+      <div class="bg-black text-success p-3 rounded" 
+           style="height:300px; overflow:auto; font-family:monospace"
+           #console>
 
-    <textarea [(ngModel)]="salida" name="outputArea" readonly></textarea>
+<pre>
+{{ salida || '>> Esperando comandos...' }}
+</pre>
+
+      </div>
+
+      <div class="mt-2 d-flex gap-2">
+        <button (click)="copiarSalida()" class="btn btn-outline-light btn-sm">
+          📋 Copiar
+        </button>
+
+        <span *ngIf="cargando" class="text-warning">
+          ⏳ Ejecutando...
+        </span>
+      </div>
+    </div>
+
   </div>
 
-  <div class="section">
-    <label>Entrada:</label>
-    <div class="editor-container">
-      <div class="line-numbers">1</div>
-      <textarea [(ngModel)]="entrada" spellcheck="false"></textarea>
+ <div *ngIf="imagenesReportes.length > 0" class="mt-4">
+
+  <h5>📊 Reportes Generados</h5>
+
+  <div class="row">
+    <div class="col-md-6 mb-3" *ngFor="let img of imagenesReportes; let i = index">
+
+      <div class="card p-2 text-center">
+
+        <img 
+          [src]="'data:image/png;base64,' + img"
+          class="img-fluid border rounded"
+          style="max-height:300px"
+        />
+
+        <a 
+          [href]="'data:image/png;base64,' + img"
+          [download]="'reporte_' + i + '.png'"
+          class="btn btn-primary mt-2">
+          Descargar
+        </a>
+
+      </div>
+
     </div>
   </div>
 
-  <div class="section">
-    <label>Salida:</label>
-    <div class="editor-container">
-      <div class="line-numbers">1</div>
-      <textarea [(ngModel)]="salida" readonly class="output-text" spellcheck="false"></textarea>
+</div>
+
+  <div class="mt-4">
+    <h5>🕘 Historial</h5>
+
+    <div *ngFor="let item of historial" class="bg-light p-2 mb-2 rounded small">
+      {{ item }}
     </div>
   </div>
+
 </div>

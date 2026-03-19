@@ -1,7 +1,6 @@
-// src/main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app'; // <--- CAMBIA 'App' por 'AppComponent'
+import { AppComponent } from './app/app'; // Sin el .ts
 
-bootstrapApplication(AppComponent, appConfig) // <--- CAMBIA 'App' por 'AppComponent'
+bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));

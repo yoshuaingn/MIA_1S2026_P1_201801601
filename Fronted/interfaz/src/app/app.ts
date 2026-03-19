@@ -1,48 +1,89 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class AppComponent {
+
   entrada: string = '';
-  salida: string = '# Acá se verán todos los mensajes de la ejecución';
-  nombreArchivo: string = 'No se ha seleccionado archivo'; // Error corregido
+  salida: string = '';
+  historial: string[] = [];
+  nombreArchivo: string = 'nuevo_script.mia';
+  imagenesReportes: string[] = [];
+  cargando: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  @ViewChild('console') consoleRef!: ElementRef;
 
-  // Error corregido: Cambié click="ejecutar()" por click="onEjecutar()" en el HTML
-  // O puedes simplemente renombrar la función aquí:
+  constructor(private http: HttpClient, private cd: ChangeDetectorRef) {}
+
   onEjecutar() {
-    const url = 'http://localhost:8080/execute';
-    this.http.post(url, { comando: this.entrada }).subscribe({
-      next: (res: any) => this.salida += `\n${res.mensaje}`,
-      error: () => this.salida += `\n[ERROR]: Sin conexión con el servidor C++`
-    });
-  }
 
-  // Error corregido: Agregando la función que falta para el botón de archivo
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.nombreArchivo = file.name;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.entrada = e.target?.result as string;
-      };
-      reader.readAsText(file);
+  if (!this.entrada.trim() || this.cargando) return;
+
+  this.cargando = true;
+
+  this.http.post<any>('http://localhost:8080/execute', {
+    comando: this.entrada
+  }).subscribe({
+    next: (res) => {
+
+      this.salida = res.log || '';
+      this.imagenesReportes = res.images || [];
+      this.historial.push(this.salida);
+
+      if (res.image && res.image.length > 50) {
+        this.imagenesReportes.push(res.image);
+      }
+
+      this.cargando = false;
+
+      this.cd.detectChanges(); // 🔥 CLAVE
+
+      setTimeout(() => this.autoScroll(), 50);
+    },
+    error: () => {
+      this.salida = "❌ Error conectando con el servidor";
+      this.cargando = false;
+    }
+  });
+}
+
+  autoScroll() {
+    if (this.consoleRef) {
+      this.consoleRef.nativeElement.scrollTop =
+        this.consoleRef.nativeElement.scrollHeight;
     }
   }
 
   limpiar() {
     this.entrada = '';
     this.salida = '';
-    this.nombreArchivo = 'No se ha seleccionado archivo';
+    this.historial = [];
+    this.imagenesReportes = [];
+  }
+
+  copiarSalida() {
+    navigator.clipboard.writeText(this.salida);
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.nombreArchivo = file.name;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.entrada = e.target?.result as string;
+      };
+      reader.readAsText(file);
+    }
   }
 }
